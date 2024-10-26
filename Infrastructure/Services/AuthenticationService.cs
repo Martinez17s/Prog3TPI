@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Requests;
 using Application.Interfaces;
-using Domain.Entities;
+using Domain.Entites;
 using Domain.Exceptions;
 using Domain.Interfaces;
 using Microsoft.Extensions.Options;
