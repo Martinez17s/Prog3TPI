@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs
 {
-    internal class SubjectDto
+    public class SubjectDto
     {
+        public int SubjectId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int ProfessorId { get; set; }
     }
 }
