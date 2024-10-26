@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entites
+namespace Domain.Entities
 {
     public class Subject
     {

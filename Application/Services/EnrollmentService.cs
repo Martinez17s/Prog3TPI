@@ -1,7 +1,7 @@
 ﻿using Application.DTOs;
 using Application.DTOs.Requests;
 using Application.Interfaces;
-using Domain.Entites;
+using Domain.Entities;
 using Domain.Interfaces;
 
 namespace Application.Services
