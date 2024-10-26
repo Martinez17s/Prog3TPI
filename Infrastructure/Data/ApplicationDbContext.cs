@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Entites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Collections.Generic;
