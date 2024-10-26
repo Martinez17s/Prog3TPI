@@ -4,12 +4,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prog3TPI", "Prog3TPI\Prog3TPI.csproj", "{5B8AD645-E825-442A-A34B-023C4BDA3B0B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C23EBDD-DF5D-40D2-A2EE-F2FE7B4425E8} = {5C23EBDD-DF5D-40D2-A2EE-F2FE7B4425E8}
+		{FE18F33A-3111-4597-A7A1-319E80C84ECD} = {FE18F33A-3111-4597-A7A1-319E80C84ECD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5F22B9D5-08D6-4A61-B01C-1885CCF3BC9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{FE18F33A-3111-4597-A7A1-319E80C84ECD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5F22B9D5-08D6-4A61-B01C-1885CCF3BC9C} = {5F22B9D5-08D6-4A61-B01C-1885CCF3BC9C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{5C23EBDD-DF5D-40D2-A2EE-F2FE7B4425E8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FE18F33A-3111-4597-A7A1-319E80C84ECD} = {FE18F33A-3111-4597-A7A1-319E80C84ECD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
