@@ -5,11 +5,11 @@ using Domain.Interfaces;
 public class ProfessorService : IProfessorService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IProfessorRepository _professorRepository; // Agregar esto
+    private readonly IProfessorRepository _professorRepository; 
 
     public ProfessorService(
         IUserRepository userRepository,
-        IProfessorRepository professorRepository) // Modificar el constructor
+        IProfessorRepository professorRepository) 
     {
         _userRepository = userRepository;
         _professorRepository = professorRepository;
@@ -31,12 +31,10 @@ public class ProfessorService : IProfessorService
         }
         catch (KeyNotFoundException ex)
         {
-            // Log the exception
             throw;
         }
         catch (Exception ex)
         {
-            // Log the exception
             throw new Exception($"Error getting clients: {ex.Message}", ex);
         }
     }
