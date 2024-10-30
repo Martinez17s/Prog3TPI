@@ -17,10 +17,8 @@ namespace Domain.Entities
         public string? Title { get; set; }
         [Column(TypeName = "nvarchar(200)")]
         public string? Description { get; set; }
-        // Propiedad de navegación para el profesor que enseña esta actividad
         public int ProfessorId { get; set; }
         public Professor? Professor { get; set; }
-        // Relación uno a muchos con Enrollments
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 
     }

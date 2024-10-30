@@ -14,10 +14,9 @@ using static Infrastructure.Services.AuthenticationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setupAction =>
 {
@@ -46,12 +45,10 @@ builder.Services.AddSwaggerGen(setupAction =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-//builder.Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("Infrastructure")));
 
 builder.Services
-    .AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticación que tenemos que elegir después en PostMan para pasarle el token
-    .AddJwtBearer(options => //Acá definimos la configuración de la autenticación. le decimos qué cosas queremos comprobar. La fecha de expiración se valida por defecto.
+    .AddAuthentication("Bearer") 
+    .AddJwtBearer(options => 
     {
         options.TokenValidationParameters = new()
         {
@@ -91,7 +88,7 @@ IServiceCollection serviceCollection = builder.Services.AddScoped<ICustomAuthent
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

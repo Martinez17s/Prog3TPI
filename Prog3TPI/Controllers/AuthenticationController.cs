@@ -14,7 +14,7 @@ namespace ProyectoP3.Api.Controllers
 
         public AuthenticationController(IConfiguration configuration, ICustomAuthentication customAuthentication)
         {
-            _configuration = configuration; // Para usar appsetting.json
+            _configuration = configuration; 
             _customAuthentication = customAuthentication;
         }
 

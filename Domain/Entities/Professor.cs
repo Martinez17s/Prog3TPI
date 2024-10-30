@@ -8,7 +8,6 @@ namespace Domain.Entities
 {
     public class Professor : User
     {
-        // Propiedad de navegación para las actividades que enseña
         public ICollection<Subject> Subjects { get; set; } = new List<Subject>();
     }
 }
