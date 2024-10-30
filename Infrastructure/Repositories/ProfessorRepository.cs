@@ -11,20 +11,38 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public ICollection<Client> GetClientsEnrolledInMySubjects(int professorId)
+        public ICollection<User> GetClientsEnrolledInMySubjects(int professorId)
         {
-            var professor = _appDbContext.Professors
-                .Include(p => p.Subjects)
-                .ThenInclude(a => a.Enrollments)
-                .ThenInclude(e => e.Client)
-                .SingleOrDefault(p => p.Id == professorId);
+            var professor = _appDbContext.Users
+                .FirstOrDefault(p => p.Id == professorId && p.Role == UserRole.Professor);
 
             if (professor == null)
             {
                 throw new KeyNotFoundException($"Professor with ID {professorId} not found.");
             }
 
-            return professor.Subjects.SelectMany(a => a.Enrollments.Select(e => e.Client)).ToList();
+            var subjects = _appDbContext.Subjects
+                .Where(s => s.ProfessorId == professorId)
+                .ToList();
+
+            if (!subjects.Any())
+            {
+                throw new KeyNotFoundException($"Professor with ID {professorId} has no subjects assigned.");
+            }
+
+            var clients = _appDbContext.Users
+                .Where(u => u.Role == UserRole.Client &&
+                       _appDbContext.Enrollments.Any(e =>
+                           subjects.Select(s => s.SubjectId).Contains(e.SubjectId) &&
+                           e.ClientId == u.Id))
+                .ToList();
+
+            if (!clients.Any())
+            {
+                throw new KeyNotFoundException($"No clients found enrolled in subjects of professor with ID {professorId}.");
+            }
+
+            return clients;
         }
     }
 }

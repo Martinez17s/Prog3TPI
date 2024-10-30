@@ -12,6 +12,7 @@ namespace ProyectoP3.Api.Controllers
     public class ProfessorController : ControllerBase
     {
         private readonly IProfessorService _profesService;
+
         public ProfessorController(IProfessorService professorService)
         {
             _profesService = professorService;

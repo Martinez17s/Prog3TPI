@@ -52,7 +52,7 @@ namespace ProyectoP3.Api.Controllers
         public async Task<ActionResult<SubjectDto>> UpdateSubject([FromBody] SubjectDto subjectDto, int id)
         {
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            if (userRole != "Owner")
+            if (userRole != "Admin")
                 return Forbid();
 
             try

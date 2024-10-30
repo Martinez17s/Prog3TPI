@@ -58,6 +58,8 @@ namespace Application.Services
             userDto.Name = result.Name;
             userDto.Email = result.Email;
             userDto.UserName = result.UserName;
+            userDto.Password = "Oculto para proteger privacidad";
+            userDto.Role = result.Role;
 
             return userDto;
         }

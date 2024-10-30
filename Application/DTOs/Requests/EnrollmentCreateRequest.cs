@@ -10,7 +10,7 @@ namespace Application.DTOs.Requests
     public class EnrollmentCreateRequest
     {
         [Required]
-        public int SubjectId { get; internal set; }
+        public int SubjectId { get; set; }
         [Required]
         public int ClientId { get; set; }
     }

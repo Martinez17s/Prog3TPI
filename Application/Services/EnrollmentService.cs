@@ -17,6 +17,7 @@ namespace Application.Services
         public async Task<EnrollmentDto> CreateAsync(EnrollmentCreateRequest request)
         {
             var enrollment = new Enrollment();
+
             enrollment.ClientId = request.ClientId;
             enrollment.SubjectId = request.SubjectId;
 
@@ -32,7 +33,7 @@ namespace Application.Services
 
         public async Task<EnrollmentDto> GetEnrollmentAsync(int id)
         {
-            var result = await _repository.GetByIdAsync(id);
+            var result = await _repository.GetByIdWithDetailsAsync(id);
             if (result == null)
                 throw new Exception("Enrollment not Found");
 
@@ -40,13 +41,17 @@ namespace Application.Services
             {
                 EnrollmentId = result.EnrollmentId,
                 SubjectId = result.SubjectId,
-                ClientId = result.ClientId
+                ClientId = result.ClientId,
+                SubjectTitle = result.Subject.Title,
+                SubjectDescription = result.Subject.Description,
+                ProfessorId = result.Subject.ProfessorId
             };
             return enrollmentDto;
         }
+
         public async Task<List<EnrollmentDto>> GetAllAsync()
         {
-            var result = await _repository.GetAllAsync();
+            var result = await _repository.GetAllWithDetailsAsync();
             var resultDto = new List<EnrollmentDto>();
             foreach (var enrollment in result)
             {
@@ -55,6 +60,9 @@ namespace Application.Services
                     EnrollmentId = enrollment.EnrollmentId,
                     SubjectId = enrollment.SubjectId,
                     ClientId = enrollment.ClientId,
+                    SubjectTitle = enrollment.Subject.Title,
+                    SubjectDescription = enrollment.Subject.Description,
+                    ProfessorId = enrollment.Subject.ProfessorId
                 };
                 resultDto.Add(enrollmentDto);
             }

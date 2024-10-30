@@ -11,6 +11,9 @@ namespace Application.DTOs
         public int EnrollmentId { get; set; }
         public int SubjectId { get; set; }
         public int ClientId { get; set; }
-
+        // Información adicional de la materia
+        public string SubjectTitle { get; set; }
+        public string SubjectDescription { get; set; }
+        public int ProfessorId { get; set; }
     }
 }

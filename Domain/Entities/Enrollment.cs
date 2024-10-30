@@ -13,11 +13,8 @@ namespace Domain.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EnrollmentId { get; set; }
-
         public int SubjectId { get; set; }
-
         public Subject Subject { get; set; }
-
         public int ClientId { get; set; }
         public Client Client { get; set; }
     }

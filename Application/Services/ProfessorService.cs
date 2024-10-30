@@ -5,38 +5,40 @@ using Domain.Interfaces;
 public class ProfessorService : IProfessorService
 {
     private readonly IUserRepository _userRepository;
-    private readonly ISubjectRepository _subjectRepository;
+    private readonly IProfessorRepository _professorRepository; // Agregar esto
 
-    public ProfessorService(IUserRepository userRepository, ISubjectRepository subjectRepository)
+    public ProfessorService(
+        IUserRepository userRepository,
+        IProfessorRepository professorRepository) // Modificar el constructor
     {
         _userRepository = userRepository;
-        _subjectRepository = subjectRepository;
+        _professorRepository = professorRepository;
     }
 
-    public async Task<List<ClientDto>> GetClientsEnrolledInMyActivities(int professorId)
+    public async Task<List<ClientDto>> GetClientsEnrolledInMySubjects(int professorId)
     {
-        var professor = await _userRepository.GetProfessorByIdAsync(professorId);
-
-        if (professor == null)
+        try
         {
-            throw new KeyNotFoundException($"Professor with ID {professorId} not found.");
+            var clients = _professorRepository.GetClientsEnrolledInMySubjects(professorId);
+
+            return clients.Select(c => new ClientDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Email = c.Email,
+                UserName = c.UserName
+            }).ToList();
         }
-
-        var subjects = await _subjectRepository.GetSubjectsByProfessorIdAsync(professorId);
-        var clients = subjects.SelectMany(a => a.Enrollments)
-                                .Select(e => new ClientDto
-                                {
-                                    Id = e.Client.Id,
-                                    Name = e.Client.Name,
-                                    UserName = e.Client.UserName,
-                                }).ToList();
-
-        return clients;
-    }
-
-    public Task<List<ClientDto>> GetClientsEnrolledInMySubjects(int professorId)
-    {
-        throw new NotImplementedException();
+        catch (KeyNotFoundException ex)
+        {
+            // Log the exception
+            throw;
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            throw new Exception($"Error getting clients: {ex.Message}", ex);
+        }
     }
 }
 

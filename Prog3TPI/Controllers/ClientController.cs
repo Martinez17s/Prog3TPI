@@ -17,7 +17,7 @@ namespace P3TPI.Controllers
         }
 
         [HttpGet("{clientId}/GetAllSubjectsEnrollments")]
-        public async Task<ActionResult<List<SubjectDto>>> GetAllSubjectsEnrollments([FromRoute] int clientId)
+        public async Task<ActionResult<List<EnrollmentDto>>> GetAllSubjectsEnrollments([FromRoute] int clientId)
         {
             try
             {

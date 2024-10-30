@@ -13,14 +13,16 @@ namespace Infrastructure.Repositories
 
         public ICollection<Subject> GetClientSubjects(int clientId)
         {
-            var client = _appDbContext.Clients
-                        .Include(c => c.Enrollments)
-                        .ThenInclude(a => a.Subject)
-                        .SingleOrDefault(c => c.Id == clientId);
+            var subjects = _appDbContext.Enrollments
+                        .Where(e => e.ClientId == clientId)
+                        .Include(e => e.Subject)
+                        .Select(e => e.Subject)
+                        .ToList();
 
-            if (client == null)
-                throw new KeyNotFoundException($"Client with ID {clientId} not found.");
-            return client.Enrollments.Select(e => e.Subject).ToList();
+            if (!subjects.Any())
+                throw new KeyNotFoundException($"No subjects found for client with ID {clientId}.");
+
+            return subjects;
         }
 
     }
