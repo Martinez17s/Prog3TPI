@@ -16,7 +16,7 @@ namespace Infrastructure.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Client> Clients => Set<Client>();
         public DbSet<Professor> Professors => Set<Professor>();
-        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Admin> Admins => Set<Admin>();
         public DbSet<Enrollment> Enrollments => Set<Enrollment>();
         public DbSet<Subject> Subjects => Set<Subject>();
 
