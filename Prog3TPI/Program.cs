@@ -67,6 +67,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
     options.AddPolicy("ProfessorPolicy", policy => policy.RequireRole("Professor"));
     options.AddPolicy("ClientPolicy", policy => policy.RequireRole("Client"));
+    options.AddPolicy("ClientPolicyOrAdminPolicy", policy => policy.RequireRole("Client", "Admin"));
+    options.AddPolicy("ProfessorPolicyOrAdminPolicy", policy => policy.RequireRole("Professor", "Admin"));
 });
 
 #region Repositories and Services

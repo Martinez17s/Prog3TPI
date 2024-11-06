@@ -7,7 +7,7 @@ namespace P3TPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "ClientPolicy")]
+    [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;

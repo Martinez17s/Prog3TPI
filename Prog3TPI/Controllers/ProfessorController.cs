@@ -8,7 +8,7 @@ namespace ProyectoP3.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "ProfessorPolicy")]
+    [Authorize(Policy = "ProfessorPolicyOrAdminPolicy")]
     public class ProfessorController : ControllerBase
     {
         private readonly IProfessorService _profesService;
