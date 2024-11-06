@@ -17,16 +17,23 @@ namespace Application.Services
         public async Task<EnrollmentDto> CreateAsync(EnrollmentCreateRequest request)
         {
             var enrollment = new Enrollment();
-
             enrollment.ClientId = request.ClientId;
             enrollment.SubjectId = request.SubjectId;
 
-            _ = await _repository.CreateAsync(enrollment);
+            await _repository.CreateAsync(enrollment);
 
-            var dto = new EnrollmentDto();
-            dto.SubjectId = enrollment.SubjectId;
-            dto.ClientId = enrollment.ClientId;
-            dto.EnrollmentId = enrollment.SubjectId;
+            
+            var enrollmentWithDetails = await _repository.GetByIdWithDetailsAsync(enrollment.EnrollmentId);
+
+            var dto = new EnrollmentDto()
+            {
+                EnrollmentId = enrollmentWithDetails.EnrollmentId,
+                SubjectId = enrollmentWithDetails.SubjectId,
+                ClientId = enrollmentWithDetails.ClientId,
+                SubjectTitle = enrollmentWithDetails.Subject.Title,
+                SubjectDescription = enrollmentWithDetails.Subject.Description,
+                ProfessorId = enrollmentWithDetails.Subject.ProfessorId
+            };
 
             return dto;
         }
