@@ -55,9 +55,9 @@ dotnet run
 * Trevisan Ramiro
 
 
-Este formato incluye emojis y formato Markdown que se verá bien en GitHub. Los emojis añaden un toque visual agradable y los bloques de código están correctamente formateados. Puedes personalizar los nombres de los contribuidores y la URL del repositorio según corresponda.
 
-También puedes agregar badges de estado del proyecto, licencia, o estadísticas si lo deseas. Por ejemplo:
+
+
 
 ```markdown
 ![.NET](https://img.shields.io/badge/.NET-%235C2D91.svg?style=for-the-badge&logo=.net&logoColor=white)
