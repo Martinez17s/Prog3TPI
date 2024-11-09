@@ -14,6 +14,17 @@ using static Infrastructure.Services.AuthenticationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()  // Permite cualquier origen
+                   .AllowAnyMethod()  // Permite cualquier método (GET, POST, etc.)
+                   .AllowAnyHeader(); // Permite cualquier encabezado
+        });
+});
+
 
 builder.Services.AddControllers();
 
@@ -90,6 +101,7 @@ IServiceCollection serviceCollection = builder.Services.AddScoped<ICustomAuthent
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 
 if (app.Environment.IsDevelopment())
 {
