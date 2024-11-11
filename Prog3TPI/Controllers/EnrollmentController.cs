@@ -8,7 +8,7 @@ namespace ProyectoP3.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "AdminPolicy")]
+    
     public class EnrollmentController : ControllerBase
     {
 
@@ -19,8 +19,8 @@ namespace ProyectoP3.Api.Controllers
             _enrollmentService = enrollmentService;
         }
 
-        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         [HttpPost("CreateEnrollment")]
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         public async Task<ActionResult<EnrollmentDto>> CreateEnrollment([FromBody] EnrollmentCreateRequest request)
         {
             return Ok(await _enrollmentService.CreateAsync(request));
@@ -28,6 +28,7 @@ namespace ProyectoP3.Api.Controllers
 
 
         [HttpGet("GetEnrollment/{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult> GetEnrollment([FromRoute] int id)
         {
             try
@@ -41,12 +42,14 @@ namespace ProyectoP3.Api.Controllers
         }
 
         [HttpGet("GetAllEnrollment")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<List<EnrollmentDto>>> GetAllEnrollment()
         {
             return Ok(await _enrollmentService.GetAllAsync());
         }
 
         [HttpPut("UpdateEnrollment/{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<EnrollmentDto>> UpdateEnrollment([FromBody] EnrollmentDto enrollmentDto, int id)
         {
             try
@@ -59,8 +62,8 @@ namespace ProyectoP3.Api.Controllers
             }
         }
 
-        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         [HttpDelete("DeleteEnrollment/{id}")]
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         public async Task<ActionResult> DeleteEnrollment([FromRoute] int id)
         {
             try
