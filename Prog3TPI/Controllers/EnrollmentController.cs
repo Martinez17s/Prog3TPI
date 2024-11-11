@@ -19,7 +19,7 @@ namespace ProyectoP3.Api.Controllers
             _enrollmentService = enrollmentService;
         }
 
-
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         [HttpPost("CreateEnrollment")]
         public async Task<ActionResult<EnrollmentDto>> CreateEnrollment([FromBody] EnrollmentCreateRequest request)
         {
@@ -59,6 +59,7 @@ namespace ProyectoP3.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         [HttpDelete("DeleteEnrollment/{id}")]
         public async Task<ActionResult> DeleteEnrollment([FromRoute] int id)
         {

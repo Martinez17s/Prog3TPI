@@ -43,6 +43,7 @@ namespace ProyectoP3.Api.Controllers
             return Ok(await _userService.GetAllAsync());
         }
 
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         [HttpPut("UpdateUser/{id}")]
         public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UpdateUserRequest request, int id)
         {
