@@ -2,39 +2,36 @@
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
     public class ClientService : IClientService
-{
-    private readonly IClientRepository _clientService;
-    public ClientService(IClientRepository clientService)
     {
-        _clientService = clientService;
-    }
+        private readonly IClientRepository _clientRepository;
 
-    public async Task<List<SubjectDto>> GetClientSubjects(int clientId)
-    {
-        var subjects = await Task.FromResult(_clientService.GetClientSubjects(clientId));
-        var subjectsDto = new List<SubjectDto>();
-        
-        foreach (var subject in subjects)
+        public ClientService(IClientRepository clientRepository)
         {
-            var subjectDto = new SubjectDto()
-            {
-                SubjectId = subject.SubjectId,
-                Title = subject.Title,
-                Description = subject.Description,
-                ProfessorId = subject.ProfessorId
-            };
-            subjectsDto.Add(subjectDto);
+            _clientRepository = clientRepository;
         }
-        return subjectsDto;
+
+        public async Task<List<SubjectEnrollmentDto>> GetClientSubjects(int clientId)
+        {
+            var enrollments = await _clientRepository.GetClientEnrollments(clientId);
+            var subjectsDto = new List<SubjectEnrollmentDto>();
+
+            foreach (var enrollment in enrollments)
+            {
+                var subjectDto = new SubjectEnrollmentDto()
+                {
+                    EnrollmentId = enrollment.EnrollmentId, // Incluye el EnrollmentId
+                    SubjectId = enrollment.Subject.SubjectId,
+                    Title = enrollment.Subject.Title,
+                    Description = enrollment.Subject.Description,
+                    ProfessorId = enrollment.Subject.ProfessorId
+                };
+                subjectsDto.Add(subjectDto);
+            }
+            return subjectsDto;
+        }
     }
-}
 }

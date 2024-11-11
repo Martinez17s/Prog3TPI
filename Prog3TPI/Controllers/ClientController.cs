@@ -11,13 +11,14 @@ namespace P3TPI.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
+
         public ClientController(IClientService clientService)
         {
             _clientService = clientService;
         }
 
         [HttpGet("{clientId}/GetAllSubjectsEnrollments")]
-        public async Task<ActionResult<List<EnrollmentDto>>> GetAllSubjectsEnrollments([FromRoute] int clientId)
+        public async Task<ActionResult<List<SubjectEnrollmentDto>>> GetAllSubjectsEnrollments([FromRoute] int clientId)
         {
             try
             {

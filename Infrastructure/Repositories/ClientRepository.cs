@@ -11,19 +11,12 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public ICollection<Subject> GetClientSubjects(int clientId)
+        public async Task<List<Enrollment>> GetClientEnrollments(int clientId)
         {
-            var subjects = _appDbContext.Enrollments
-                        .Where(e => e.ClientId == clientId)
-                        .Include(e => e.Subject)
-                        .Select(e => e.Subject)
-                        .ToList();
-
-            if (!subjects.Any())
-                throw new KeyNotFoundException($"No subjects found for client with ID {clientId}.");
-
-            return subjects;
+            return await _appDbContext.Enrollments
+                .Include(e => e.Subject)
+                .Where(e => e.ClientId == clientId)
+                .ToListAsync();
         }
-
     }
 }
