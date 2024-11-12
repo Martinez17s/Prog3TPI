@@ -9,7 +9,7 @@ namespace ProyectoP3.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "AdminPolicy")]
+    
     public class SubjectController : ControllerBase
     {
         private readonly ISubjectService _subjectService;
@@ -20,6 +20,7 @@ namespace ProyectoP3.Api.Controllers
 
 
         [HttpPost("CreateSubject")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<SubjectDto>> CreateSubject([FromBody] SubjectCreateRequest request)
         {
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -30,6 +31,7 @@ namespace ProyectoP3.Api.Controllers
         }
 
         [HttpGet("GetSubject/{id}")]
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         public async Task<ActionResult> GetSubject([FromRoute] int id)
         {
             try
@@ -43,12 +45,14 @@ namespace ProyectoP3.Api.Controllers
         }
 
         [HttpGet("GetAllSubjects")]
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         public async Task<ActionResult<List<SubjectDto>>> GetAllSubjects()
         {
             return Ok(await _subjectService.GetAllAsync());
         }
 
         [HttpPut("UpdateSubject/{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<SubjectDto>> UpdateSubject([FromBody] SubjectDto subjectDto, int id)
         {
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -66,6 +70,7 @@ namespace ProyectoP3.Api.Controllers
         }
 
         [HttpDelete("DeleteSubject/{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult> DeleteSubject([FromRoute] int id)
         {
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
