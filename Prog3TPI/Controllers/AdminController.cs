@@ -40,7 +40,7 @@ namespace ProyectoP3.Api.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Policy = "AdminPolicy")]
+        [Authorize(Policy = "ClientPolicyOrAdminPolicy")]
         public async Task<ActionResult<List<UserDto>>> GetAllUsers()
         {
             return Ok(await _userService.GetAllAsync());
