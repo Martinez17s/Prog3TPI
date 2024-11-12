@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Requests;
+using Application.DTOs; // Asegúrate de incluir el espacio de nombres para AuthenticationResponse
 using Application.Interfaces;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -14,27 +15,27 @@ namespace ProyectoP3.Api.Controllers
 
         public AuthenticationController(IConfiguration configuration, ICustomAuthentication customAuthentication)
         {
-            _configuration = configuration; 
+            _configuration = configuration;
             _customAuthentication = customAuthentication;
         }
 
         [HttpPost("Authenticate")]
-        public async Task<ActionResult<string>> Authenticate([FromBody] AuthenticationRequest authenticationRequest)
+        public async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest authenticationRequest)
         {
             try
             {
-                string token = await _customAuthentication.AutenticarAsync(authenticationRequest);
-                return Ok(token);
+                // Llama al método AutenticarAsync que devuelve AuthenticationResponse
+                var response = await _customAuthentication.AutenticarAsync(authenticationRequest);
+                return Ok(response); // Devuelve el token y el ID del usuario
             }
             catch (NotAllowedException ex)
             {
-                return Unauthorized(ex.Message);
+                return Unauthorized(ex.Message); // Devuelve un error 401 si la autenticación falla
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}"); // Devuelve un error 500 en caso de excepciones no controladas
             }
-
         }
     }
 }

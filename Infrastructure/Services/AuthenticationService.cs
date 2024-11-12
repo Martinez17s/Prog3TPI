@@ -1,10 +1,13 @@
-﻿using Application.DTOs.Requests;
+﻿using Application.DTOs;
+using Application.DTOs.Requests;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -21,6 +24,7 @@ namespace Infrastructure.Services
             _userRepository = userRepository;
             _options = options.Value;
         }
+
         public class AuthenticacionServiceOptions
         {
             public const string AuthenticacionService = "AuthenticacionService";
@@ -34,24 +38,25 @@ namespace Infrastructure.Services
         {
             if (string.IsNullOrEmpty(request.UserName) || string.IsNullOrEmpty(request.Password))
                 return null;
+
             var user = await _userRepository.GetUserByUserNameAsync(request.UserName);
             if (user == null)
                 return null;
+
             if (user.UserName == request.UserName && user.Password == request.Password)
                 return user;
 
             return null;
         }
 
-        public async Task<string> AutenticarAsync(AuthenticationRequest request)
+        public async Task<AuthenticationResponse> AutenticarAsync(AuthenticationRequest request)
         {
             var user = await ValidateUserAsync(request);
 
             if (user == null)
-                throw new NotAllowedException("User authentication failed");
+                throw new NotAllowedException("User  authentication failed");
 
             var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_options.SecretForKey));
-
             var credentials = new SigningCredentials(securityPassword, SecurityAlgorithms.HmacSha256);
 
             var claimsForToken = new List<Claim>
@@ -72,8 +77,11 @@ namespace Infrastructure.Services
 
             var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-            return tokenToReturn.ToString();
+            return new AuthenticationResponse
+            {
+                Token = tokenToReturn,
+                UserId = user.Id // Devuelve el ID del usuario
+            };
         }
-
     }
 }

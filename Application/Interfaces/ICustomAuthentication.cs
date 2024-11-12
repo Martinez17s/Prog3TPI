@@ -1,14 +1,11 @@
 ﻿using Application.DTOs.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Application.DTOs; // Asegúrate de incluir el espacio de nombres para AuthenticationResponse
 using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
     public interface ICustomAuthentication
     {
-        Task<string> AutenticarAsync(AuthenticationRequest authenticationRequest);
+        Task<AuthenticationResponse> AutenticarAsync(AuthenticationRequest authenticationRequest);
     }
 }
