@@ -6,6 +6,6 @@ namespace Application.Interfaces
 {
     public interface ICustomAuthentication
     {
-        Task<AuthenticationResponse> AutenticarAsync(AuthenticationRequest authenticationRequest);
+        Task<string> AutenticarAsync(AuthenticationRequest authenticationRequest);
     }
 }
