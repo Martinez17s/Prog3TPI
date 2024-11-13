@@ -94,6 +94,9 @@ builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+builder.Services.AddScoped<IProfessorRepository, ProfessorRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IProfessorService, ProfessorService>();
 builder.Services.Configure<AuthenticacionServiceOptions>(
     builder.Configuration.GetSection(AuthenticacionServiceOptions.AuthenticacionService));
 IServiceCollection serviceCollection = builder.Services.AddScoped<ICustomAuthentication, Infrastructure.Services.AuthenticationService>();

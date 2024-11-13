@@ -11,6 +11,13 @@ namespace Infrastructure.Repositories
         {
         }
 
+        public async Task<List<Subject>> GetSubjectsByProfessorIdAsync(int professorId)
+        {
+            return await _appDbContext.Subjects
+                .Where(s => s.ProfessorId == professorId)
+                .ToListAsync();
+        }
+
         public ICollection<User> GetClientsEnrolledInMySubjects(int professorId)
         {
             var professor = _appDbContext.Users

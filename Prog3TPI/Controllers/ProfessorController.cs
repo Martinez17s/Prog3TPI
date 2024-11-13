@@ -39,5 +39,27 @@ namespace ProyectoP3.Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpGet("{professorId}/subjects")]
+        public async Task<ActionResult<List<SubjectDto>>> GetSubjectsByProfessorId([FromRoute] int professorId)
+        {
+            try
+            {
+                var subjects = await _profesService.GetSubjectsByProfessorId(professorId);
+                if (subjects == null || !subjects.Any())
+                {
+                    return NotFound($"No subjects found for professor with ID {professorId}.");
+                }
+                return Ok(subjects);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

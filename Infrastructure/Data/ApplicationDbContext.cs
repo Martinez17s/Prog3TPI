@@ -66,6 +66,6 @@ namespace Infrastructure.Data
             .HasMany(p => p.Subjects)
             .WithOne(s => s.Professor)
             .HasForeignKey(s => s.ProfessorId);
-        } //fin
+        } 
     }
 }

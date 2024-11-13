@@ -10,5 +10,6 @@ namespace Domain.Interfaces
     public interface IProfessorRepository
     {
         ICollection<User> GetClientsEnrolledInMySubjects(int professorId);
+        Task<List<Subject>> GetSubjectsByProfessorIdAsync(int professorId);
     }
 }

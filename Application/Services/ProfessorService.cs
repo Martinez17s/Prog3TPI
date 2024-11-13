@@ -4,39 +4,43 @@ using Domain.Interfaces;
 
 public class ProfessorService : IProfessorService
 {
+    private readonly IProfessorRepository _professorRepository;
+    private readonly ISubjectRepository _subjectRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IProfessorRepository _professorRepository; 
 
-    public ProfessorService(
-        IUserRepository userRepository,
-        IProfessorRepository professorRepository) 
+    public ProfessorService(IProfessorRepository professorRepository, ISubjectRepository subjectRepository)
     {
-        _userRepository = userRepository;
         _professorRepository = professorRepository;
+        _subjectRepository = subjectRepository; // Asegúrate de que esta línea esté presente
+    }
+
+    
+
+    public async Task<List<SubjectDto>> GetSubjectsByProfessorId(int professorId)
+    {
+        var subjects = await _subjectRepository.GetSubjectsByProfessorIdAsync(professorId);
+        return subjects.Select(s => new SubjectDto
+        {
+            SubjectId = s.SubjectId,
+            Title = s.Title,
+            Description = s.Description,
+            ProfessorId = s.ProfessorId
+        }).ToList();
     }
 
     public async Task<List<ClientDto>> GetClientsEnrolledInMySubjects(int professorId)
     {
-        try
-        {
-            var clients = _professorRepository.GetClientsEnrolledInMySubjects(professorId);
+        // Llama al repositorio para obtener los clientes inscritos en las materias del profesor
+        var clients = _professorRepository.GetClientsEnrolledInMySubjects(professorId);
 
-            return clients.Select(c => new ClientDto
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Email = c.Email,
-                UserName = c.UserName
-            }).ToList();
-        }
-        catch (KeyNotFoundException ex)
+        // Mapea los resultados a la lista de ClientDto
+        return clients.Select(c => new ClientDto
         {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Error getting clients: {ex.Message}", ex);
-        }
+            Id = c.Id,
+            Name = c.Name,
+            Email = c.Email,
+            UserName = c.UserName
+        }).ToList();
     }
 }
 
