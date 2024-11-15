@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Requests;
+﻿using Application.DTOs;
+using Application.DTOs.Requests;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -43,24 +44,23 @@ namespace Infrastructure.Services
             return null;
         }
 
-        public async Task<string> AutenticarAsync(AuthenticationRequest request)
+        public async Task<AuthenticationResponse> AutenticarAsync(AuthenticationRequest request)
         {
             var user = await ValidateUserAsync(request);
 
             if (user == null)
-                throw new NotAllowedException("User authentication failed");
+                throw new NotAllowedException("User  authentication failed");
 
             var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_options.SecretForKey));
-
             var credentials = new SigningCredentials(securityPassword, SecurityAlgorithms.HmacSha256);
 
             var claimsForToken = new List<Claim>
-            {
+    {
                 new Claim("sub", user.Id.ToString()),
                 new Claim("name", user.Name),
                 new Claim("email", user.Email),
                 new Claim("role", user.Role.ToString())
-            };
+    };
 
             var jwtSecurityToken = new JwtSecurityToken(
                 _options.Issuer,
@@ -72,7 +72,11 @@ namespace Infrastructure.Services
 
             var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-            return tokenToReturn.ToString();
+            return new AuthenticationResponse
+            {
+                Token = tokenToReturn,
+                UserId = user.Id // Devuelve el ID del usuario
+            };
         }
 
     }

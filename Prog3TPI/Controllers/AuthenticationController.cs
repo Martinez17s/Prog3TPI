@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Requests;
+﻿using Application.DTOs;
+using Application.DTOs.Requests;
 using Application.Interfaces;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,12 @@ namespace ProyectoP3.Api.Controllers
         }
 
         [HttpPost("Authenticate")]
-        public async Task<ActionResult<string>> Authenticate([FromBody] AuthenticationRequest authenticationRequest)
+        public async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest authenticationRequest)
         {
             try
             {
-                string token = await _customAuthentication.AutenticarAsync(authenticationRequest);
-                return Ok(token);
+                var response = await _customAuthentication.AutenticarAsync(authenticationRequest);
+                return Ok(response); // Devuelve el token y el ID del usuario
             }
             catch (NotAllowedException ex)
             {
@@ -34,7 +35,6 @@ namespace ProyectoP3.Api.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
         }
     }
 }
